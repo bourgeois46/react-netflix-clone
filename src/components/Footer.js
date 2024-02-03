@@ -1,29 +1,29 @@
-import React from 'react'
+import React from "react";
 import styled from "styled-components";
 
 export default function Footer() {
-    return (
-        <FooterContainer>
-            <FooterContent>
-                <FooterLinkContainer>
-                    <FooterLinkTitle>
-                        넷플릭스 대한민국
-                    </FooterLinkTitle>
-                    <FooterLinkContent>
-                        <FooterLink href="http://help.netflix.com/ko/node/412">넷플릭스 소개</FooterLink>
-                        <FooterLink href="http://help.netflix.com/ko">고객 센터</FooterLink>
-                        <FooterLink href="http://help.netflix.com/ko">미디어 센터</FooterLink>
-                        <FooterLink href="http://help.netflix.com/ko">이용 약관</FooterLink>
-                    </FooterLinkContent>
-                    <FooterDescContainer>
-                        <FooterDescRights>
-                            Netflix Rights Reserved.
-                        </FooterDescRights>
-                    </FooterDescContainer>
-                </FooterLinkContainer>
-            </FooterContent>
-        </FooterContainer>
-    );
+  return (
+    <FooterContainer>
+      <FooterContent>
+        <FooterLinkContainer>
+          <FooterLinkTitle>넷플릭스 대한민국</FooterLinkTitle>
+          <FooterLinkContent>
+            <FooterLink href="http://help.netflix.com/ko/node/412">
+              넷플릭스 소개
+            </FooterLink>
+            <FooterLink href="http://help.netflix.com/ko">고객 센터</FooterLink>
+            <FooterLink href="http://help.netflix.com/ko">
+              미디어 센터
+            </FooterLink>
+            <FooterLink href="http://help.netflix.com/ko">이용 약관</FooterLink>
+          </FooterLinkContent>
+          <FooterDescContainer>
+            <FooterDescRights>Netflix Rights Reserved.</FooterDescRights>
+          </FooterDescContainer>
+        </FooterLinkContainer>
+      </FooterContent>
+    </FooterContainer>
+  );
 }
 
 const FooterContainer = styled.div`
@@ -36,17 +36,17 @@ const FooterContainer = styled.div`
   position: relative;
   z-index: 100;
 
-  @media (max-width: 769px){
+  @media (max-width: 769px){ // 반응형 스타일링
     padding: 20px 20px;
     padding-bottom: 30px;
   }
-`
+`;
 const FooterContent = styled.div``;
 
 const FooterLinkContainer = styled.div`
   width: 500px;
 
-  @media (max-width: 768px){
+  @media (max-width: 768px) {
     width: 100%;
   }
 `;
@@ -62,7 +62,7 @@ const FooterLinkContent = styled.div`
   flex-wrap: wrap;
   margin-top: 35px;
 
-  @media (max-width: 768px){
+  @media (max-width: 768px) {
     margin-top: 26px;
   }
 `;
@@ -72,7 +72,7 @@ const FooterLink = styled.a`
   font-size: 14px;
   width: 110px;
   margin-bottom: 21px;
-  text-decoration: none;
+  text-decoration: none; // 기본적으로 밑줄이 있기에 호버될때만 적용되게 하기 위해
 
   &: hover {
     text-decoration: underline;
@@ -92,7 +92,7 @@ const FooterDescContainer = styled.div`
 `;
 
 const FooterDescRights = styled.h2`
-  color: white;
+  color: gray;
   font-size: 14px;
   text-align: center;
 `;

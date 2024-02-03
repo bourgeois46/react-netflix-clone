@@ -1,86 +1,90 @@
 import axios from "../api/axios";
 import React, { useEffect, useState } from "react";
-import requests from '../api/requests';
+import requests from "../api/requests";
 import "./Banner.css";
 import styled from "styled-components";
 
-
 export default function Banner() {
-    const [movie, setMovie] = useState([]); // 빈 배열
-    const [isClicked, setIsClicked] = useState(false);
+  const [movie, setMovie] = useState([]); // 빈 배열
+  const [isClicked, setIsClicked] = useState(false);
 
-    useEffect(() => {
-        fetchData();
-    }, []);
+  useEffect(() => {
+    fetchData(); // fetchData가 바뀔 때만 렌더링
+  }, []);
 
-    const fetchData = async () => {
-        // 현재 상영중인 영화 정보를 가져오기(여러 영화)
-        const request = await axios.get(requests.fetchNowPlaying);
+  const fetchData = async () => {
+    // 비동기 처리
 
-        // 여러 영화 중 영화 하나의 ID를 가져오기
-        const movieId =
-            request.data.results[
-                Math.floor(Math.random() * request.data.results.length)
-            ].id;
+    // 현재 상영중인 영화 정보를 가져오기(여러 영화)
+    const request = await axios.get(requests.fetchNowPlaying);
 
-        // 특정 영화의 더 상세한 정보를 가져오기(비디오 정보도 포함)
-        const { data: movieDetail } = await axios.get(`movie/${movieId}`,
-            {
-                params: { append_to_response: "videos" },
-            });
-        setMovie(movieDetail);
-    };
+    // 여러 영화 중 영화 하나의 ID를 가져오기
+    const movieId =
+      request.data.results[ // data.results -> 콘솔창에서 확인
+        Math.floor(Math.random() * request.data.results.length) // 이 길이(개수) 안에서 랜덤 값
+      ].id;
 
-    const truncate = (str, n) => {
-        return str?.length > n ? str.substr(0, n - 1) + "..." : str;
+    // 특정 영화의 더 상세한 정보를 가져오기(비디오 정보도 포함)
+    const { data: movieDetail } = await axios.get(`movie/${movieId}`, {
+      params: { append_to_response: "videos" }, // 추가 요청
+    });
+    setMovie(movieDetail);
+  };
 
-    }
+  const truncate = (str, n) => {
+    return str?.length > n ? str.substr(0, n - 1) + "..." : str;
+  }; // str이 있다면, n보다 크다면
 
-    if (!isClicked) {
+  if (!isClicked) {
+    return (
+      <header
+        className="banner"
+        style={{
+          backgroundImage: `url("https://image.tmdb.org/t/p/original/${movie.backdrop_path}")`,
+          backgroundPosition: "top center",
+          backgroundSize: "cover", // 배경 다 채우면서 확대 및 축소/가로세로 비율 유지
+        }}
+      >
+        <div className="banner__contents">
+          <h1 className="banner__title">
+            {movie.title || movie.name || movie.original_name}{" "}
+            {/* 없으면 오른쪽 요소 보여줌 */}
+          </h1>
 
-        return (
-            <header
-                className="banner"
-                style={{
-                    backgroundImage: `url("https://image.tmdb.org/t/p/original/${movie.backdrop_path}")`,
-                    backgroundPosition: "top center",
-                    backgroundSize: "cover",
-                }}
+          <div className="banner__buttons">
+            <button
+              className="banner__button play"
+              onClick={() => setIsClicked(true)}
             >
-                <div className="banner__contents">
-                    <h1 className="banner__title">{movie.title || movie.name || movie.original_name}</h1>
+              Play
+            </button>
+            <button className="banner__button info">More Information</button>
+          </div>
 
-                    <div className="banner__buttons">
-                        <button
-                            className="banner__button play"
-                            onClick={() => setIsClicked(true)}>
-                            Play
-                        </button>
-                        <button className="banner__button info">More Information</button>
-                    </div>
-
-                    <h1 className="banner__description">{truncate(movie.overview)}</h1>
-                </div>
-                <div className="banner--fadeBotton" />
-            </header>
-        );
-    } else {
-        return (
-            <Container>
-                <HomeContainer>
-                    <Iframe
-                        width="560"
-                        height="315"
-                        src={`https://www.youtube.com/embed/${movie.videos.results[0].key}?controls=0&autoplay=1&loop=1&mute=1&playlist=${movie.videos.results[0].key}`}
-                        title="YouTube video player"
-                        frameborder="0"
-                        allow="autoplay; fullscreen"
-                        allowfullscreen
-                    ></Iframe>
-                </HomeContainer>
-            </Container>
-        )
-    }
+          <h1 className="banner__description">
+            {truncate(movie.overview, 100)}
+          </h1>
+        </div>
+        <div className="banner--fadeBottom" />
+      </header>
+    );
+  } else {
+    return (
+      <Container>
+        <HomeContainer>
+          <Iframe
+            width="560"
+            height="315"
+            src={`https://www.youtube.com/embed/${movie.videos.results[0].key}?controls=0&autoplay=1&loop=1&mute=1&playlist=${movie.videos.results[0].key}`}
+            title="YouTube video player"
+            frameborder="0"
+            allow="autoplay; fullscreen"
+            allowfullscreen
+          ></Iframe>
+        </HomeContainer>
+      </Container>
+    );
+  }
 }
 
 const Iframe = styled.iframe`
@@ -91,16 +95,14 @@ const Iframe = styled.iframe`
   border: none;
 
   &::after {
-    content:"";
+    content: "";
     position: absolute;
     top: 0;
     left: 0;
     width: 100%;
     height: 100%;
-
   }
-
-`
+`;
 
 const Container = styled.div`
   display: flex;
@@ -108,9 +110,9 @@ const Container = styled.div`
   flex-direction: column;
   width: 100%;
   height: 100vh;
-`
+`;
 
 const HomeContainer = styled.div`
   width: 100%;
   height: 100%;
-`
+`;
