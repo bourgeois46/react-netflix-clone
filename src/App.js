@@ -21,9 +21,12 @@ function App() {
     <div className="app">
       <Routes>
         <Route path="/" element={<Layout />}>
+          {" "}
+          {/* 네비게이션/푸터 */}
           <Route index element={<MainPage />} />
-          <Route path=":movieId" element={<DetailPage />} />
-          <Route path=":search" element={<SearchPage />} />
+          <Route path=":movieId" element={<DetailPage />} />{" "}
+          {/* path -> api 주소 */}
+          <Route path="search" element={<SearchPage />} />
         </Route>
       </Routes>
     </div>

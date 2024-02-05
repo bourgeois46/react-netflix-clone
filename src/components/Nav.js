@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
-import "./Nav.css";
 import { useNavigate } from "react-router-dom";
+import "./Nav.css";
 
 export default function Nav() {
   const [show, setShow] = useState(false);
@@ -8,10 +8,13 @@ export default function Nav() {
   const navigate = useNavigate();
 
   useEffect(() => {
-    // 스크롤시 Nav bar 색깔 변경
     window.addEventListener("scroll", () => {
-      if (window.scrollY > 50) setShow(true);
-      else setShow(false);
+      console.log("window.scrollY", window.scrollY);
+      if (window.scrollY > 50) {
+        setShow(true);
+      } else {
+        setShow(false);
+      }
     });
 
     return () => {
@@ -25,12 +28,12 @@ export default function Nav() {
   };
 
   return (
-    <nav className={`nav ${show && "nav__black"}`}>
+    <nav className={`nav ${show && "nav__black"} `}>
       <img
         alt="Netflix logo"
-        src="https://upload.wikimedia.org/wikipedia/commons/thumb/7/7a/Logonetflix.png/1200px-Logonetflix.png"
+        src="https://upload.wikimedia.org/wikipedia/commons/thumb/0/08/Netflix_2015_logo.svg/170px-Netflix_2015_logo.svg.png"
         className="nav__logo"
-        onClick={() => window.location.reload()}
+        onClick={() => (window.location.href = "/")}
       />
 
       <input
@@ -43,7 +46,7 @@ export default function Nav() {
 
       <img
         alt="User logged"
-        src="https://wallpapers.com/images/hd/netflix-profile-pictures-1000-x-1000-88wkdmjrorckekha.jpg"
+        src="https://occ-0-4796-988.1.nflxso.net/dnm/api/v6/K6hjPJd6cR6FpVELC5Pd6ovHRSk/AAAABbme8JMz4rEKFJhtzpOKWFJ_6qX-0y5wwWyYvBhWS0VKFLa289dZ5zvRBggmFVWVPL2AAYE8xevD4jjLZjWumNo.png?r=a41"
         className="nav__avatar"
       />
     </nav>
